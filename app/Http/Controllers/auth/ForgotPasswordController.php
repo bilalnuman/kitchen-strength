@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Password;
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
     public function showLinkRequestForm()
     {
-        return view('auth.passwords.email');
+        return view('auth.email');
     }
 
     public function sendResetLinkEmail(Request $request)
@@ -20,6 +20,7 @@ class ForgotPasswordController extends Controller
         ]);
 
         $response = Password::sendResetLink($request->only('email'));
+
         return $response == Password::RESET_LINK_SENT
             ? back()->with('status', 'We have emailed your password reset link!')
             : back()->withErrors(['email' => 'We couldn’t find an account with that email address.']);

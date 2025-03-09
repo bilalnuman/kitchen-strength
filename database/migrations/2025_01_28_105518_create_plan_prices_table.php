@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prices', function (Blueprint $table) {
+        Schema::create('plan_prices', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->decimal('amount', 8, 2);
+            $table->string('sub_title');
+            $table->string('plan_detail');
+            $table->decimal('price', 8, 2);
             $table->string('currency')->default('usd');
-            $table->string('payment_type');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prices');
+        Schema::dropIfExists('plan_prices');
     }
 };

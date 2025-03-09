@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
@@ -20,30 +21,23 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
+
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors(),
-            ], 422);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-
-            if (Auth::attempt($credentials)) {
-                if (auth()->user()->role === 'admin') {
-                    return redirect('/dashboard');
-                } else {
-                    return redirect()->route('home');
-                }
+            if (Auth::user()->role === 'admin') {
+                return redirect('/dashboard');
+            } else {
+                return redirect()->route('home');
             }
-
         }
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Invalid login details.',
-        ], 401);
+
+        return redirect()->back()->with('error', 'Invalid login details.')->withInput();
     }
+
 
     public function logout()
     {
@@ -51,4 +45,3 @@ class LoginController extends Controller
         return redirect()->route('login');
     }
 }
-

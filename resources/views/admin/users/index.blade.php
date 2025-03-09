@@ -26,24 +26,33 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($users as $index=>$user)
+                            @if ($user->role !== 'admin')
                             <tr>
                                 <td>
-                                    1
+                                    {{$index+1}}
                                 </td>
-                                <td>Fahad</td>
-                                <td>fahad@gmail.com</td>
+                                <td>{{$user->name}}</td>
+                                <td>{{$user->email}}</td>
                                 <td>+3847653874</td>
-                                <td>2018-01-20</td>
+                                <td>{{$user->created_at}}</td>
                                 <td>
-                                    <div class="badge badge-shadow" style="background-color: #d7ffa4;">Admin</div>
+                                    <div class="badge badge-shadow" style="background-color: #d7ffa4;">{{$user->role}}</div>
                                 </td>
                                 <td>
-                                    <img alt="image" src="{{asset('assets/img/users/user-5.png')}}" width="35">
+                                    @if ($user->image)
+                                    <img alt="{{asset($user->image)}}" src="{{asset('assets/img/users/user-5.png')}}" width="35">
+                                    @else
+                                    <span>N/A</span>
+                                    @endif
+
                                 </td>
-                                <td><a href="#" class="btn btn-primary m-0 p-1"> <i data-feather="edit"></i> </a>
+                                <td><a href="" class="btn btn-primary m-0 p-1"> <i data-feather="edit"></i> </a>
                                     <a href="#" class="btn btn-danger m-0 p-1"> <i data-feather="trash"></i> </a>
                                 </td>
                             </tr>
+                            @endif
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

@@ -11,7 +11,7 @@ class UserController extends Controller
     {
         try {
             $users = User::all();
-            return view('admin.users.index');
+            return view('admin.users.index',compact('users'));
         } catch (\Exception $e) {
             return response()->json(['error' => 'Failed to retrieve users. Please try again later.'], 500);
         }

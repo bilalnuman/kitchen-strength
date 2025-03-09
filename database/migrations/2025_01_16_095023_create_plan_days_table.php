@@ -10,10 +10,8 @@ return new class extends Migration {
     {
         Schema::create('plan_days', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->foreignId('plan_id')->constrained()->onDelete('cascade');
-            // $table->dateTime('day')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->string('day')->default(DB::raw("DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s')"));
-
             $table->timestamps();
         });
     }

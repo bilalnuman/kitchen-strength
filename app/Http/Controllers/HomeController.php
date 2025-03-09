@@ -8,12 +8,13 @@ use App\Models\Method;
 use App\Models\Recipe;
 use App\Models\Banner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        // return redirect()->route('recipes.index');
+        // dd(Auth::user());
         try {
             $recipes = Recipe::orderBy('created_at', 'desc')->get();
             $banners = Banner::first();

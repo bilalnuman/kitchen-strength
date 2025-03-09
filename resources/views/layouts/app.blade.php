@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>Website</title>
+  <title>title</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
@@ -20,57 +20,6 @@
 </head>
 
 <body>
-
-
-  <nav class="navbar navbar-expand-lg navbar-light d-none">
-    <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="{{asset('assets/img/logo/Dark Green 1.png')}}" alt="">
-      </a>
-
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link nav-3d-effect {{Request::is('/') ? 'acitve' : ''}}" href="{{route('home')}}">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-3d-effect" href="about.html">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-3d-effect {{Request::is('/') ? 'acitve' : ''}}"
-              href="{{route('prices.index')}}">Pricing</a>
-          </li>
-        </ul>
-
-        <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
-            <a class="nav-link nav-3d-effect {{Request::is('recipes') ? 'active' : ''}}"
-              href="{{route('recipes.index')}}">Recipes</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-3d-effect {{Request::is('favourites') ? 'active' : ''}}"
-              href="{{route('favourite.index')}}">Favourite</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-3d-effect {{Request::is('shoppings') ? 'active' : ''}}"
-              href="{{route('shopping.index')}}">Shopping</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link nav-3d-effect {{Request::is('plans') ? 'active' : ''}}"
-              href="{{route('plans.index')}}">Plan</a>
-          </li>
-
-        </ul>
-      </div>
-      <!-- <div class="search-bar" id="search-bar">
-            <input type="text" class="form-control" placeholder="Search here...">
-        </div> -->
-    </div>
-  </nav>
 
   <nav class="navbar navbar-expand-lg navbar-light {{ Request::is('recipes/cooking*') ? 'd-none' : ''}} ">
     <div class="container">
@@ -113,6 +62,8 @@
             <a class="nav-link nav-3d-effect {{Request::is('favourites') ? 'acitve' : ''}}"
               href="{{ route('favourite.index') }}">Favourite</a>
           </li>
+          @auth
+
           <li class="nav-item">
             <a class="nav-link nav-3d-effect {{Request::is('shoppings') ? 'acitve' : ''}}"
               href="{{ route('shopping.index') }}">Shopping</a>
@@ -121,13 +72,28 @@
             <a class="nav-link nav-3d-effect {{Request::is('accounts') ? 'acitve' : ''}}"
               href="{{ route('accounts.index') }}">Account</a>
           </li>
+          <li class="nav-item">
+          <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <button type="submit" class="btn nav-link nav-3d-effect">Logout</button>
+            </form>
+          </li>
 
-
+          </li>
+          @endauth
+          @guest
+          <li class="nav-item">
+            <a class="nav-link nav-3d-effect {{Request::is('accounts') ? 'acitve' : ''}}"
+              href="{{ route('login') }}">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-3d-effect {{Request::is('accounts') ? 'acitve' : ''}}"
+              href="{{ route('register') }}">Register</a>
+          </li>
+          @endguest
         </ul>
       </div>
-      <!-- <div class="search-bar" id="search-bar">
-            <input type="text" class="form-control" placeholder="Search here...">
-        </div> -->
     </div>
   </nav>
 

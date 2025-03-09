@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash as FacadesHash;
-use Illuminate\Support\Facades\Validator as FacadesValidator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 class RegisterController extends Controller
@@ -16,42 +16,38 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
+    private function generateUsername($name)
+    {
+        $cleanName = trim($name);
+        $usernamePrefix = substr($cleanName, 0, 3);
+        $randomNumbers = rand(1000, 9999);
+        return $usernamePrefix . $randomNumbers;
+    }
+
     public function register(Request $request)
     {
-
-        $validator = FacadesValidator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-
         $user = new User();
         $user->name = $request->name;
+        $user->username = $this->generateUsername($request->name);
         $user->email = $request->email;
         $user->role = $request->role ? $request->role : 'user';
-        $user->password = FacadesHash::make($request->password);
+        $user->password = Hash::make($request->password);
         $res = $user->save();
 
         if ($res) {
-            return response()->json([
-                'message' => 'User registered successfully.',
-            ], 201);
+            return redirect()->route('login')->with('success', 'User registered successfully. Please log in.');
         } else {
-            return response()->json([
-                'message' => 'Failed to register user. Please try again.'
-            ], 400);
+            return redirect()->back()->with('error', 'Failed to register user. Please try again.')->withInput();
         }
-
-
-        // auth()->login($user);
-
-        // return redirect()->route('/');
     }
 }
-

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Price;
+use App\Models\PlanPrice;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -11,30 +11,32 @@ class PriceController extends Controller
     // Display a listing of the prices
     public function index()
     {
-        $prices = Price::orderBy('amount','desc')->get();
+        $prices = PlanPrice::orderBy('price','desc')->get();
         return view('admin.prices.index', compact('prices'));
     }
        
     // Show the form for creating a new price
     public function create()
     {
-        return view('adminprices.create');
+        return view('admin.prices.create');
     }
 
     // Store a newly created price in the database
     public function store(Request $request)
     {
+       
         try {
             // Validate the request data
             $validatedData = $request->validate([
                 'title' => 'required|string|max:255',
-                'payment_type' => 'required|string|max:255',
-                'amount' => 'required|numeric|min:0',
+                'sub_title' => 'required|string|max:255',
+                'plan_detail' => 'required|string|max:255',
+                'price' => 'required|numeric|min:0',
                 'currency' => 'nullable|string|max:3',
             ]);
 
             // Attempt to create the price record in the database
-            $price = Price::create([
+            $price = PlanPrice::create([
                 'title' => $validatedData['title'],
                 'payment_type' => $validatedData['payment_type'],
                 'amount' => $validatedData['amount'],
@@ -55,14 +57,14 @@ class PriceController extends Controller
     // Display the specified price
     public function show($id)
     {
-        $price = Price::findOrFail($id);
+        $price = PlanPrice::findOrFail($id);
         return view('admin.prices.show', compact('price'));
     }
 
     // Show the form for editing the specified price
     public function edit($id)
     {
-        $price = Price::findOrFail($id);
+        $price = PlanPrice::findOrFail($id);
         return view('admin.prices.edit', compact('price'));
     }
 
@@ -76,7 +78,7 @@ class PriceController extends Controller
                 'currency' => 'nullable|string|max:3',
             ]);
 
-            $price = Price::findOrFail($id);
+            $price = PlanPrice::findOrFail($id);
             $price->update([
                 'amount' => $validatedData['amount'],
                 'currency' => $validatedData['currency'] ?? $price->currency, // Keep the existing currency if not updated
@@ -96,7 +98,7 @@ class PriceController extends Controller
     public function destroy($id)
     {
         try {
-            $price = Price::findOrFail($id);
+            $price = PlanPrice::findOrFail($id);
             $price->delete();
 
             return redirect()->route('prices.index')->with('success', 'Price deleted successfully.');

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login</title>
+    <title>Forgot Password</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
@@ -22,7 +22,7 @@
         }
 
         .image-container {
-            background: url('./assets/images/auth-img2.jpeg') center no-repeat;
+            background: url('{{asset("assets/images/auth-img2.jpeg")}}') center no-repeat;
             background-size: cover;
             height: 100vh;
         }
@@ -175,10 +175,11 @@
                         <img src="{{asset('assets/images/logo.png')}}" width="150px">
                     </div>
                     <div class="heading mb-3">
-                        <h4>Login Into Your Account</h4>
+                        <h4>Forgot Password</h4>
                     </div>
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('password.email') }}">
                         @csrf
+
                         <div class="form-input">
                             <span><i class="fa fa-envelope"></i></span>
                             <input type="email" name="email" placeholder="Email Address" value="{{ old('email') }}" required>
@@ -187,40 +188,24 @@
                             @enderror
                         </div>
 
-                        <div class="form-input">
-                            <span><i class="fa fa-lock"></i></span>
-                            <input type="password" name="password" placeholder="Password" required>
-                            @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        @if(session('status'))
+                        <div class="alert alert-success">
+                            {{ session('status') }}
                         </div>
+                        @endif
 
-                        <!-- Display Custom Error Message -->
                         @if(session('error'))
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
                         @endif
 
-                        <div class="row mb-3">
-                            <div class="col-6 d-flex">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="cb1" name="remember">
-                                    <label class="custom-control-label text-white" for="cb1">Remember me</label>
-                                </div>
-                            </div>
-                            <div class="col-6 text-right">
-                                <a href="{{ route('password.request') }}" class="forget-link">Forget Password</a>
-                            </div>
-                        </div>
-
                         <div class="text-left mb-3">
-                            <button type="submit" class="btn">Login</button>
+                            <button type="submit" class="btn w-100">
+                                {{ session('status') ? 'Resend' : 'Submit' }}
+                            </button>
                         </div>
 
-                        <div class="text-white">Don't have an account?
-                            <a href="{{ route('register') }}" class="register-link">Register here</a>
-                        </div>
                     </form>
 
 

@@ -10,9 +10,8 @@ return new class extends Migration {
     {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
-            $table->string('unit')->nullable();
             $table->string('ingredient');
-            $table->string('type')->nullable();
+            $table->string('unit_weight')->nullable();
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

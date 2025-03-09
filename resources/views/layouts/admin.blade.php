@@ -24,6 +24,11 @@
         .navbar {
             background-color: #343a40;
         }
+        .active-link{
+            color: #454546;
+            font-weight: 600;
+            background-color: #e7ffc8;
+        }
     </style>
 </head>
 
@@ -86,12 +91,12 @@
                     </div>
                     <ul class="sidebar-menu mb-5">
                         <li class="menu-header">Main</li>
-                        <li class="dropdown {{ Request::is('dashboard') ? 'active' : '' }}">
+                        <li class="dropdown {{ request()->is('dashboard') ? 'active-link' : '' }}">
                             <a href="/dashboard" class="nav-link"><i
                                     data-feather="monitor"></i><span>Dashboard</span></a>
                         </li>
                         <li
-                            class="dropdown {{ Route::currentRouteName() == 'users.index' || Route::currentRouteName() == 'users.store' ? 'active' : '' }}">
+                            class="dropdown {{ Route::currentRouteName() == 'users.index' || Route::currentRouteName() == 'users.store' ? 'active-link' : '' }}">
                             <a href="{{ route('users.index') }}" class="nav-link">
                                 <i data-feather="users"></i><span>Users</span>
                             </a>
@@ -113,14 +118,14 @@
 
 
                         <li>
-                            <a href="{{ route('recipes.index') }}" class="nav-link">Recipes</a>
+                            <a href="{{ route('recipes.index') }}" class="nav-link {{ request()->is('dashboard/recipes') ? 'active-link' : '' }}">Recipes</a>
                         </li>
 
 
                         <li>
-                            <a href="{{ route('prices.index') }}" class="nav-link">Plan
-                                Price</a>
-                        </li>
+    <a href="{{ route('prices.index') }}" class="nav-link {{ request()->is('dashboard/prices') ? 'active-link' : '' }}">Plan Price</a>
+</li>
+
 
 
 
