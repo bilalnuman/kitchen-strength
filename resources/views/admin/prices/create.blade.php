@@ -45,7 +45,7 @@
                         <h4>Plan Detail</h4>
                         <div class="form-group row mb-4">
                             <div class="col-sm-12">
-                                <textarea class="summernote" name="notes">
+                                <textarea class="summernote" name="plan_detail">
 
                                 </textarea>
                             </div>

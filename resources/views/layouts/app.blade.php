@@ -40,8 +40,8 @@
               href="{{ route('about-us') }}">About</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-3d-effect {{Request::is('prices') ? 'acitve' : ''}}"
-              href="{{route('prices.index')}}">Pricing</a>
+            <a class="nav-link nav-3d-effect {{request()->is('plan-prices') ? 'acitve' : ''}}"
+              href="{{route('plan.prices')}}">Pricing</a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-3d-effect {{Request::is('meal-plan') ? 'acitve' : ''}}"

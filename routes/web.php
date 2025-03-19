@@ -41,17 +41,24 @@ Route::post('/password-reset', [ResetPasswordController::class, 'reset'])->name(
 
 Route::middleware(['auth'])->group(function () {
 
-    Route::prefix('dashboard')->group(function (): void {
-        Route::get('/', [AdminController::class, 'dashboard']);
-        Route::resource('users', UserController::class);
-        Route::resource('prices', PriceController::class);
-        Route::resource('courses', CourseController::class);
-        Route::resource('diets', DietController::class);
-        Route::resource('dishes', DishController::class);
-        Route::resource('methods', MethodController::class);
-        Route::resource('prices', PriceController::class);
-        Route::resource('recipes', RecipeController::class);
+    Route::middleware(['admin'])->group(function () {
+        Route::prefix('dashboard')->group(function (): void {
+            Route::get('/', [AdminController::class, 'dashboard']);
+            Route::resource('users', UserController::class);
+            Route::resource('courses', CourseController::class);
+            Route::resource('diets', DietController::class);
+            Route::resource('dishes', DishController::class);
+            Route::resource('methods', MethodController::class);
+            Route::resource('prices', PriceController::class);
+            Route::resource('recipes', RecipeController::class);
+        });
     });
+    
+    Route::prefix('')->group(function (): void {
+        Route::get('plan-prices', [PriceController::class,'planPrice'])->name('plan.prices');
+    });
+
+
 
     Route::resource('plans', PlanController::class);
     Route::resource('ingredients', IngredientController::class);
