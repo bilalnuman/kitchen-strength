@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlanDay extends Model
 {
-    protected $fillable = ['plan_id', 'day'];
+    protected $fillable = ['plan_id', 'title'];
 
 
     public function plan()

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PlanDay;
 use App\Models\PlanDayRecipe;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PlanDayController extends Controller
@@ -14,10 +15,10 @@ class PlanDayController extends Controller
         try {
             $request->validate([
                 'plan_id' => 'required|exists:plans,id',
-                'day' => 'nullable|string|max:255',
+                'title' => 'nullable|string|max:255',
             ]);
 
-            $planday = PlanDay::create(['plan_id' => $request->plan_id]);
+            $planday = PlanDay::create(['plan_id' => $request->plan_id,"title"=>Carbon::now()]);
             return response()->json([
                 'success' => true,
                 'message' => 'Plan day added successfully',

@@ -226,7 +226,7 @@
                 </div>
             @endisset
         </div>
-    
+
 
         <!-- Recipe Selection Modal -->
         <div class="modal fade day-recipes" id="recipeModal" tabindex="-1" role="dialog">
@@ -332,19 +332,18 @@
                             <div class="col-md-9">
                                 <div class="row" style="max-height: 400px; overflow-y: auto;">
                                     @foreach ($recipes as $recipe)
-
-                                    @endforeach
-                                    <div class="col-md-4 mb-3">
-                                        <div class="card" onclick="addRecipe({{ $recipe }})">
-                                            <img src={{ asset($recipe->thumbnail) }} class="card-img-top">
-                                            <div class="card-body">
-                                                <h6 class="card-title">{{ $recipe->title }}</h6>
-                                                <div><i
-                                                        class="far fa-clock pr-2"></i>{{ formatTotalTime($recipe->cook_time) }}
+                                        <div class="col-md-4 mb-3">
+                                            <div class="card" onclick="addRecipe({{ $recipe }})">
+                                                <img src={{ asset($recipe->thumbnail) }} class="card-img-top">
+                                                <div class="card-body">
+                                                    <h6 class="card-title">{{ $recipe->title }}</h6>
+                                                    <div><i
+                                                            class="far fa-clock pr-2"></i>{{ formatTotalTime($recipe->cook_time) }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @endforeach
                                 </div>
 
 
@@ -362,9 +361,9 @@
 
 
         async function addDay() {
-  
-            const planId={{ Request::route('plan') }}
-            const lastDay = document.querySelectorAll(".day-label");
+
+            const planId ={{ Request::route('plan') }}
+                const lastDay = document.querySelectorAll(".day-label");
             let dyaN = lastDay?.length ? lastDay.length + 1 : 1
             let res = await postData(planId, '', 'plan-days/add');
             res = await res.json();
@@ -375,11 +374,11 @@
                 newRecipeWrapper.id = `day-${res?.id}`
 
                 const newRecipeLabel = document.createElement("div");
-                newRecipeLabel.classList.add("text-center", "day-label",'mb-1');
+                newRecipeLabel.classList.add("text-center", "day-label", 'mb-1');
                 newRecipeLabel.textContent = `Day ${dyaN}`;
 
                 const newRecipeBox = document.createElement("div");
-                newRecipeBox.classList.add("recipe-box",'mt-3');
+                newRecipeBox.classList.add("recipe-box", 'mt-3');
                 newRecipeBox.textContent = "+ New Recipe";
 
                 newRecipeWrapper.appendChild(newRecipeLabel);
@@ -419,14 +418,15 @@
 
         async function postData(plan_day_id, recipe_id = null, endPoint) {
             try {
+               
 
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                const csrfToken = $('meta[name="csrf-token"]').attr('content')
 
                 const response = await fetch(`http://127.0.0.1:8000/${endPoint}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-XSRF-TOKEN': csrfToken
+                        'X-CSRF-TOKEN': csrfToken
                     },
                     body: JSON.stringify({ plan_day_id, recipe_id })
                 });
@@ -446,12 +446,12 @@
             let card = document.createElement("div");
             card.className = "card";
             card.innerHTML = `                                                                                                      <img src="http://127.0.0.1:8000/${imgSrc}" class="card-img-top">
-                                                                                                                                            <div class="card-body">
-                                                                                                                                                <h6 class="card-title">${name}</h6>
-                                                                                                                                                <div><i class="far fa-clock"></i> ${time} min</div>
-                                                                                                                                                <i class="far fa-trash-alt delete-icon"></i>                                
-                                                                                                                                            </div>
-                                                                                                                                        `;
+                                                                                                                                                <div class="card-body">
+                                                                                                                                                    <h6 class="card-title">${name}</h6>
+                                                                                                                                                    <div><i class="far fa-clock"></i> ${time} min</div>
+                                                                                                                                                    <i class="far fa-trash-alt delete-icon"></i>                                
+                                                                                                                                                </div>
+                                                                                                                                            `;
 
             let deleteIcon = card.querySelector(".delete-icon");
             deleteIcon.addEventListener("click", (event) => {
@@ -463,13 +463,13 @@
 
 
         async function handleDeleteRecipe(event, id) {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            const csrfToken = $('meta[name="csrf-token"]').attr('content')
 
             const response = await fetch(`http://127.0.0.1:8000/plan-days/recipe/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-XSRF-TOKEN': csrfToken
+                    'X-CSRF-TOKEN': csrfToken
                 },
             });
             res = await response.json()

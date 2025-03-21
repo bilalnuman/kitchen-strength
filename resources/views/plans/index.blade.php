@@ -5,7 +5,7 @@
     <div class="container meal-planner">
         <h2 class="planner-title">My Planner</h2>
         <div class="d-flex planner-container">
-            @foreach ($plans as $plan) 
+            @foreach ($plans as $plan)
                 <a href="{{ route('plans.show', $plan->id) }}">
                     <div>
                         @if (count($plan->days))
@@ -66,40 +66,42 @@
         $(document).ready(() => {
             const csrfToken = $('meta[name="csrf-token"]').attr('content')
             const plannerContainer = $('.planner-container')
-            $('.new-plan-card').on('click', async function () {
-                try {
 
-                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            $('.new-plan-card').on('click', async function () {
+                console.log(csrfToken) // Debugging
+                try {
                     let res = await fetch('{{ route("plans.store") }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-XSRF-TOKEN': csrfToken
-                        }
+                            'X-CSRF-TOKEN': csrfToken
+                        },
+                        body: JSON.stringify({}) // Add necessary data here
                     });
 
                     if (!res.ok) {
                         throw new Error('Network response was not ok');
                     }
 
-                    else {
-                        res = await res.json()
-                        console.log(res)
-                        plannerContainer.append(`<div>
-                                                                                <a href="plans/${res.plan.id}" class="d-flex plan-card-empt ">
-                                                                                <div class="empty"> </div>
-                                                                                <div class="empty"> </div>
-                                                                                <div class="empty"> </div>
-                                                                            </a>
-                                                                            <div>${res.plan.title}</div>
-                                                                            </div>
-                                                                                `)
-                    }
+                    res = await res.json();
+                    console.log(res);
+
+                    plannerContainer.append(`
+                    <div>
+                        <a href="plans/${res.plan.id}" class="d-flex plan-card-empt">
+                            <div class="empty"></div>
+                            <div class="empty"></div>
+                            <div class="empty"></div>
+                        </a>
+                        <div>${res.plan.title}</div>
+                    </div>
+                `);
                 } catch (error) {
                     console.error('Error:', error);
                 }
-            })
-        })
+            });
+        });
+
         // offcanvas
         // const toggleButton = document.getElementById('toggleOffcanvas');
         // const offcanvas = document.getElementById('offcanvas');
