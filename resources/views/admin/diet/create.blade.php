@@ -11,6 +11,7 @@
                 </div>
                 <div class="card-body">
                     <form method="post" action="{{ route('diets.store') }}">
+                    @csrf
                         <div class="form-group">
                             <label for="featureTitle">Diet Name</label>
                             <input type="text" name="name" class="form-control" id="featureTitle" placeholder="Enter Diet"

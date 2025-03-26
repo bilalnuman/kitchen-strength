@@ -11,7 +11,8 @@ return new class extends Migration {
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
             $table->string('ingredient');
-            $table->string('unit_weight')->nullable();
+            $table->string('unit');
+            $table->enum('type', ['vegetable', 'fruit', 'protein', 'dairy', 'spice', 'other']);
             $table->foreignId('recipe_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -11,6 +11,7 @@
                 </div>
                 <div class="card-body">
                     <form method="post" action="{{ route('courses.store') }}">
+                        @csrf
                         <div class="form-group">
                             <label for="featureTitle">Course Name</label>
                             <input type="text" name="name" class="form-control" id="featureTitle" placeholder="Enter Course"
